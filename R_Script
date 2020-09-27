@@ -7,23 +7,23 @@ library(yarrr)
 library(RColorBrewer)
 myCol <- brewer.pal(3, "Pastel2")
 
-#getwd()
+getwd()
 ##Set as working directory in order to read files
-setwd("~/OSU_Project/R") #"C:/Users/gabve/OneDrive/Documents/OSU_Project/R"
+setwd("/home/gzc0025/Documents/R") #"C:/Users/gabve/OneDrive/Documents/OSU_Project/R"
 
-T0 <- read.csv("Mock.csv", TRUE, ",")
-T1 <- read.csv("30min.csv", TRUE, ",")
-T2 <- read.csv("1.5h.csv", TRUE, ",")
-T3 <- read.csv("3h.csv", TRUE, ",")
+#T0 <- read.csv("Mock.csv", TRUE, ",")
+#T1 <- read.csv("30min.csv", TRUE, ",")
+#T2 <- read.csv("1.5h.csv", TRUE, ",")
+#T3 <- read.csv("3h.csv", TRUE, ",")
 
 All_FoldChange <- read.csv("Log2FoldChange.csv", TRUE, ",")
 
 #scarna_data <- filter (x, grepl('SCARNA', Gene))
-id <- T0$ï..Gene
-rownames(All_FoldChange) <- id
+id <- All_FoldChange$Gene
 All_FoldChange <- data.matrix(All_FoldChange[,2:5])
+rownames(All_FoldChange) <- id
 plot(All_FoldChange)
-heatmap(All_FoldChange[1:800,], col=brewer.pal(11,"RdYlGn"))
+heatmap(All_FoldChange, col=brewer.pal(11,"RdYlGn"))
 
 
 if (T0$Log2.Fold.Change/T1$Log2.Fold.Change > 4) 
