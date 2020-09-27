@@ -1,0 +1,103 @@
+#BosTaurus-BHV1
+#install.packages("VennDiagram","ggplot2")
+library(ggplot2)
+library(VennDiagram)
+#install.packages("yarr")
+library(yarrr)
+library(RColorBrewer)
+myCol <- brewer.pal(3, "Pastel2")
+
+#getwd()
+##Set as working directory in order to read files
+setwd("~/OSU_Project/R") #"C:/Users/gabve/OneDrive/Documents/OSU_Project/R"
+
+T0 <- read.csv("Mock.csv", TRUE, ",")
+T1 <- read.csv("30min.csv", TRUE, ",")
+T2 <- read.csv("1.5h.csv", TRUE, ",")
+T3 <- read.csv("3h.csv", TRUE, ",")
+
+All_FoldChange <- read.csv("Log2FoldChange.csv", TRUE, ",")
+
+#scarna_data <- filter (x, grepl('SCARNA', Gene))
+id <- T0$ï..Gene
+rownames(All_FoldChange) <- id
+All_FoldChange <- data.matrix(All_FoldChange[,2:5])
+plot(All_FoldChange)
+heatmap(All_FoldChange[1:800,], col=brewer.pal(11,"RdYlGn"))
+
+
+if (T0$Log2.Fold.Change/T1$Log2.Fold.Change > 4) 
+
+#library(gplots)
+test <- heatmap.2(All_FoldChange)
+All_FoldChange[rev(test$rowInd), test$colInd]
+
+
+pca <- prcomp(t(All_FoldChange), scale=F) 
+## plot pc1 and pc2
+plot(pca$x[,1], pca$x[,2])
+## make a scree plot
+pca.var <- pca$sdev^2
+pca.var.per <- round(pca.var/sum(pca.var)*100, 1)
+
+barplot(pca.var.per, main="BHV1", xlab="Principal Component", ylab="Percent Variation")
+
+## now make a fancy looking plot that shows the PCs and the variation:
+library(ggplot2)
+
+pca.data <- data.frame(Sample=rownames(pca$x),
+                       X=pca$x[,1],
+                       Y=pca$x[,2])
+pca.data
+
+ggplot(data=pca.data, aes(x=X, y=Y, label=Sample)) +
+  geom_text() +
+  xlab(paste("PC1 - ", pca.var.per[1], "%", sep="")) +
+  ylab(paste("PC2 - ", pca.var.per[2], "%", sep="")) +
+  theme_bw() +
+  ggtitle("My PCA Graph")
+
+## get the name of the top 10 measurements (genes) that contribute
+## most to pc1.
+loading_scores <- pca$rotation[,1]
+gene_scores <- abs(loading_scores) ## get the magnitudes
+gene_score_ranked <- sort(gene_scores, decreasing=TRUE)
+top_10_genes <- names(gene_score_ranked[1:10])
+plot(gene_score_ranked)
+plot(gene_score_ranked[1:800])
+top_1000_genes <- names(gene_score_ranked[1:800])
+
+top_10_genes ## show the names of the top 10 genes
+pca$rotation[top_10_genes,1] ## show the scores (and +/- sign)
+
+write.csv(top_1000_genes, "top_1000_genes.csv")
+write.csv(names(gene_score_ranked[150:800]), "top_150-800_genes.csv")
+
+#######
+
+
+#Plot the volcano plot hightligting the proteins of intererst
+#T0
+plot(T0$Log2.Fold.Change, T0$Adjusted.P.value,
+     pch=16, cex=0.7, col=8,
+     main="Mock", xlab ="Fold Change", ylab = "Adjusted p-value", cex.lab=1.5, 
+     cex.axis=1.2, ylim=rev(range(c(1:0))))
+#points(results[45,1:2], pch=16, col="blue", cex=1.5) #RPUSD2
+
+#T1
+plot(T1$Log2.Fold.Change, T1$Adjusted.P.value,
+     pch=16, cex=0.7, col=8,
+     main="30 min", xlab ="Fold Change", ylab = "Adjusted p-value", cex.lab=1.5, 
+     cex.axis=1.2, ylim=rev(range(c(1:0))))
+
+#T2
+plot(T2$Log2.Fold.Change, T2$Adjusted.P.value,
+     pch=16, cex=0.7, col=8,
+     main="1h 30 min", xlab ="Fold Change", ylab = "Adjusted p-value", cex.lab=1.5, 
+     cex.axis=1.2, ylim=rev(range(c(1:0))))
+
+#T3
+plot(T3$Log2.Fold.Change, T3$Adjusted.P.value,
+     pch=16, cex=0.7, col=8,
+     main="3h", xlab ="Fold Change", ylab = "Adjusted p-value", cex.lab=1.5, 
+     cex.axis=1.2, ylim=rev(range(c(1:0))))
