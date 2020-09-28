@@ -11,27 +11,38 @@ getwd()
 ##Set as working directory in order to read files
 setwd("/home/gzc0025/Documents/R") #"C:/Users/gabve/OneDrive/Documents/OSU_Project/R"
 
-#T0 <- read.csv("Mock.csv", TRUE, ",")
-#T1 <- read.csv("30min.csv", TRUE, ",")
-#T2 <- read.csv("1.5h.csv", TRUE, ",")
-#T3 <- read.csv("3h.csv", TRUE, ",")
+T0 <- read.csv("Mock.csv", TRUE, ",")
+T1 <- read.csv("30min.csv", TRUE, ",")
+T2 <- read.csv("1.5h.csv", TRUE, ",")
+T3 <- read.csv("3h.csv", TRUE, ",")
 
-All_FoldChange <- read.csv("Log2FoldChange.csv", TRUE, ",")
+#All_FoldChange <- read.csv("Log2FoldChange.csv", TRUE, ",")
+All_FoldChange <- read.csv("Log2FoldChange_modif.csv", TRUE, ",")
 
 #scarna_data <- filter (x, grepl('SCARNA', Gene))
 id <- All_FoldChange$Gene
 All_FoldChange <- data.matrix(All_FoldChange[,2:5])
 rownames(All_FoldChange) <- id
-plot(All_FoldChange)
-heatmap(All_FoldChange, col=brewer.pal(11,"RdYlGn"))
+#plot(All_FoldChange)
+heatmap(All_FoldChange, Colv=NA ,col=brewer.pal(11,"RdYlGn"))
 
 
 if (T0$Log2.Fold.Change/T1$Log2.Fold.Change > 4) 
-
-#library(gplots)
-test <- heatmap.2(All_FoldChange)
+  
+  library(gplots)
+  test <- heatmap.2(All_FoldChange)
 All_FoldChange[rev(test$rowInd), test$colInd]
+## Row clustering (adjust here distance/linkage methods to what you need!)
+hr <- hclust(as.dist(1-cor(t(All_FoldChange), method="pearson")), method="complete")
 
+## Column clustering (adjust here distance/linkage methods to what you need!)
+hc <- hclust(as.dist(1-cor(All_FoldChange, method="spearman")), method="complete")
+
+## Plot heatmap
+heatmap.2(All_FoldChange, Rowv=as.dendrogram(hr), Colv=as.dendrogram(hc), scale="row", density.info="none", trace="none")
+
+## Return matrix with row/column sorting as in heatmap
+All_FoldChange[rev(hr$labels[hr$order]), hc$labels[hc$order]]
 
 pca <- prcomp(t(All_FoldChange), scale=F) 
 ## plot pc1 and pc2
