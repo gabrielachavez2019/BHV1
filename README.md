@@ -133,6 +133,10 @@ v<-csVolcanoMatrix(genes(cuff_data))
 ```
 ![v](https://github.com/gabrielachavez2019/BoHV1/blob/master/v.png)
 
+Later, I computed the graph-based distance matrix for N single gene in expression space for Latent and Uninfected within replicates to get the JS Distance, the more red the more different the more white or close to zero the more similar.  
+```
+myDistHeat<-csDistHeat(genes(cuff_data),replicates=T)
+```
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
