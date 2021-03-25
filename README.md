@@ -114,8 +114,9 @@ sp<-csScatter(genes(cuff_data),"Uni","Lat",smooth=T)
 ```
 Next I cluster the Gene Expression data, this allows an openended exploration of the data, without getting lost among the thousands of individual genes. Beyond simple visualization. I used a computational application for gene clustering that is part of the cummeRbund suite.
 ```
-den<-csDendro(diffGenes, replicates=T)
+den<-csDendro(genes(cuff_data), replicates=T)
 ```
+![den](http://url/to/den.png)
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
