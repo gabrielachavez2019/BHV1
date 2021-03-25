@@ -121,11 +121,18 @@ sp<-csScatter(genes(cuff_data),"Uni","Lat",smooth=T)
 ```
 ![sp](https://github.com/gabrielachavez2019/BoHV1/blob/master/sp.png)
 
-Next I cluster the Gene Expression data, this allows an openended exploration of the data, without getting lost among the thousands of individual genes. Beyond simple visualization. I used a computational application for gene clustering that is part of the cummeRbund suite.
+Next, I cluster the Gene Expression data, this allows an openended exploration of the data, without getting lost among the thousands of individual genes. Beyond simple visualization. I used a computational application for gene clustering that is part of the cummeRbund suite.
 ```
 den<-csDendro(genes(cuff_data), replicates=T)
 ```
 ![den](https://github.com/gabrielachavez2019/BoHV1/blob/master/den.png)
+
+The volcano plot arrange genes along dimensions of biological and statistical significance. The first (horizontal) dimension is the fold change of Latency vs Uninfected (on a log scale, so that up and down regulation appear symmetric), and the second (vertical) axis represents the p-value for a t-test of differences between samples (most conveniently on a negative log scale – so smaller p-values appear higher up). The first axis indicates biological impact of the change; the second indicates the statistical evidence, or reliability of the change. 
+```
+v<-csVolcanoMatrix(genes(cuff_data))
+```
+![v](https://github.com/gabrielachavez2019/BoHV1/blob/master/v.png)
+
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
