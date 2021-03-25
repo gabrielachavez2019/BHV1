@@ -138,6 +138,11 @@ Later, I computed the graph-based distance matrix for N single gene in expressio
 myDistHeat<-csDistHeat(genes(cuff_data),replicates=T)
 ```
 ![myDistHeat](https://github.com/gabrielachavez2019/BoHV1/blob/master/myDistHeat.png)
+ 
+ On the same page, is also useful to get a matrix with significant values:
+```
+mySigMat<-sigMatrix(cuff_data,level='genes',alpha=0.05)
+```
 
 To reduce the dimensionality of the data while retaining most of the variation in the data set. I used a mathematical algorithm called  Principal component analysis (PCA) that accomplishes this reduction by identifying directions, called principal components, along which the variation in the data is maximal. By using a few components, each sample can be represented by relatively few numbers instead of by values for thousands of variables. Uninfected and Latency samples were then plotted, making it possible to visually assess similarities and differences between samples and determine whether samples can be grouped. 
 
@@ -166,6 +171,53 @@ diffGenesOutput<-merge(diffGenesNames,diffGenesData,by="row.names")
 head(diffGenesOutput)
 write.table(diffGenesOutput, 'diff_genes.txt', sep='\t',row.names = F, col.names = T, quote = F)
 ```
+
+To analyze specific gene candidates
+```
+jones_list <- read.csv("jones_list2.csv", TRUE, ",")
+myGeneIds <- (jones_list$wnt0060070)
+myGenes2 <- getGenes(cuff_data, myGeneIds)
+
+tail(fpkm(myGenes2))
+
+h<-csHeatmap(myGenes2,cluster='both')
+#h<-csHeatmap(myGenes,cluster='both',replicates=T)
+h
+b<-expressionBarplot(myGenes2)
+b
+###Finding similar expression
+mySimilar<-findSimilar(cuff_data,"XLOC_002340", n=20)
+mySimilar.expression<-expressionPlot(mySimilar,logMode=T,showErrorbars=F)
+mySimilar.expression
+
+#### Or individual gene
+#myGeneId<-"LRP1"
+myGene<-getGene(cuff_data,"XLOC_002340")
+b<-expressionBarplot(myGene)
+b
+
+head(fpkm(isoforms(myGene)))
+
+
+#h<-csHeatmap(myGenes,cluster='both')
+h<-csHeatmap(myGene,cluster='both',replicates=T)
+h
+b<-expressionBarplot("myGenes", replicates=T)
+b
+
+myGene<-getGene(cuff_data,"Stat1")
+igb<-expressionBarplot(isoforms(myGene),replicates=T)
+igb
+
+myGene<-getGene(cuff_data,"Jak1")
+igb<-expressionBarplot(isoforms(myGene),replicates=T)
+igb
+
+myGene<-getGene(cuff_data,"Stat3")
+igb<-expressionBarplot(isoforms(myGene),replicates=T)
+igb
+```
+
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
