@@ -97,9 +97,22 @@ You can explore global statistics on data for quality, dispersion, distribution 
 ### Create global statistics for Quality Control
 Overdispersion is a common problem in RNA-Seq data. To evaluate the quality of the model fitting I used cufflinks v2.0 mean counts, variance, and dispersion to visualize the estimated overdispersion for each sample as a quality control measure.
 ```
-disp<-dispersionPlot(genes(cuff_data))
-disp 
+disp<-dispersionPlot(genes(cuff_data)) 
 ```
+The squared coefficient of variation is a normalized measure of cross-replicate variability that can be useful for evaluating the quality the RNA-seq data. Differences in CV2 can result in lower numbers of differentially expressed genes due to a higher degree of variability between replicate fpkm estimates.
+```
+genes.scv<-fpkmSCVPlot(genes(cuff_data))
+isoforms.scv<-fpkmSCVPlot(isoforms(cuff_data))
+```
+To assess the distributions of FPKM scores across samples, I used the csDensity plot.
+```
+densRep<-csDensity(genes(cuff_data),replicates=T)
+```
+Individual Pairwise comparisons were made by using csScatter between Latent (x) vs Uninfected (y) treatments.
+```
+sp<-csScatter(genes(cuff_data),"Uni","Lat",smooth=T)
+```
+
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
