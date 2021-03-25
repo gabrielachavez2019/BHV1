@@ -127,7 +127,7 @@ den<-csDendro(genes(cuff_data), replicates=T)
 ```
 ![den](https://github.com/gabrielachavez2019/BoHV1/blob/master/den.png)
 
-The volcano plot arrange genes along dimensions of biological and statistical significance. The first (horizontal) dimension is the fold change of Latency vs Uninfected (on a log scale, so that up and down regulation appear symmetric), and the second (vertical) axis represents the p-value for a t-test of differences between samples (most conveniently on a negative log scale – so smaller p-values appear higher up). The first axis indicates biological impact of the change; the second indicates the statistical evidence, or reliability of the change. 
+The volcano plot arrange genes along dimensions of biological and statistical significance. The first (horizontal) dimension is the fold change of Latency vs Uninfected (on a log scale, so that up and down regulation appear symmetric), and the second (vertical) axis represents the p-value for a t-test of differences between samples (most conveniently on a negative log scale – so smaller p-values appear higher up). The first axis indicates biological impact of the change; the second indicates the statistical evidence, or reliability of the change, in red are marked all the genes that have a significant p-value (alpha < 0.05).
 ```
 v<-csVolcanoMatrix(genes(cuff_data))
 ```
