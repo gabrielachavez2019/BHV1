@@ -137,6 +137,12 @@ Later, I computed the graph-based distance matrix for N single gene in expressio
 ```
 myDistHeat<-csDistHeat(genes(cuff_data),replicates=T)
 ```
+![myDistHeat](https://github.com/gabrielachavez2019/BoHV1/blob/master/myDistHeat.png)
+
+To reduce the dimensionality of the data while retaining most of the variation in the data set. I used a mathematical algorithm called  Principal component analysis (PCA) that accomplishes this reduction by identifying directions, called principal components, along which the variation in the data is maximal. By using a few components, each sample can be represented by relatively few numbers instead of by values for thousands of variables. Uninfected and Latency samples were then plotted, making it possible to visually assess similarities and differences between samples and determine whether samples can be grouped. 
+
+![genes.PCA.rep](https://github.com/gabrielachavez2019/BoHV1/blob/master/genes.PCA.rep.png)
+
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
