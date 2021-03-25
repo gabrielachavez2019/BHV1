@@ -143,6 +143,29 @@ To reduce the dimensionality of the data while retaining most of the variation i
 
 ![genes.PCA.rep](https://github.com/gabrielachavez2019/BoHV1/blob/master/genes.PCA.rep.png)
 
+To get a table wit the significantly regulated genes:
+```
+gene_diff_data <- diffData(genes(cuff_data))
+sig_gene_data <- subset(gene_diff_data, (significant == 'yes'))
+diffGeneIDs <- getSig(cuff_data,level="genes",alpha=0.05)
+
+#gene_short_name values (and corresponding XLOC_* values) can be retrieved from the CuffGeneSet by using:
+names<-featureNames(diffGenes)
+row.names(names)=names$tracking_id
+diffGenesNames<-as.matrix(names)
+diffGenesNames<-diffGenesNames[,-1]
+
+# get the data for the significant genes
+diffGenesData<-diffData(diffGenes)
+row.names(diffGenesData)=diffGenesData$gene_id
+diffGenesData<-diffGenesData[,-1]
+
+# merge the two matrices by row names
+diffGenesOutput<-merge(diffGenesNames,diffGenesData,by="row.names")
+
+head(diffGenesOutput)
+write.table(diffGenesOutput, 'diff_genes.txt', sep='\t',row.names = F, col.names = T, quote = F)
+```
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
