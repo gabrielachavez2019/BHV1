@@ -64,17 +64,17 @@ sbatch mapping.sh -input [/path/to/rundir] -outputDir [/path/to/outputdirname] -
 - CummeRbund
 
 
-#### Mapping
+## Mapping
 Illumina pair-end hight quality reads are aligned first to the BoHV1 genome using minimap, which is better for viral genomes. Followed by mapping them agaist the bovine genome using TOPHAT2, which was designed to specifically address many of the challenges of RNA-seq data mapping, and uses a novel strategy for spliced alignments.
 
-#### Read counting
+## Read counting
 Counting sequencing reads in features (genes/transcripts/exons) is done with cufflinks using the union mode.
 
-#### Normalizing read counts
+## Normalizing read counts
 Cufflinks with default options --library-norm-method classic-fpkm (default) for Cufflinks --library-norm-method geometric (default) for cuffdiff.
 Cuffnorm will report both FPKM values and normalized, estimates for the number of fragments that originate from each gene, transcript, TSS group, and CDS group. Note that because these counts are already normalized to account for differences in library size, they should not be used with downstream differential expression tools that require raw counts as input.
 
-#### Calculate FPKMs
+## Calculate FPKMs
 Cuffdiff calculates the FPKM of each transcript, primary transcript, and gene in each sample. Primary transcript and gene FPKMs are computed by summing the FPKMs of transcripts in each primary transcript group or gene group. The results are output in FPKM tracking files in the format described here. There are four FPKM tracking files:
 
 isoforms.fpkm_tracking	Transcript FPKMs
@@ -82,7 +82,7 @@ genes.fpkm_tracking	Gene FPKMs. Tracks the summed FPKM of transcripts sharing ea
 cds.fpkm_tracking	Coding sequence FPKMs. Tracks the summed FPKM of transcripts sharing each p_id, independent of tss_id
 tss_groups.fpkm_tracking	Primary transcript FPKMs. Tracks the summed FPKM of transcripts sharing each tss_id
 
-#### Differential expression analysis
+## Differential expression analysis
 CummeRbund makes managing and querying data easier by loading the data into multiple objects of several different classes and having functions to query them. Because all of this gets stored in an sql database, you can access it quickly without loading everything in to memory.
 
   readCufflinks- Most important function designed to read all the output files that cuffdiff generates into an R data object (of class CuffSet).
@@ -93,6 +93,13 @@ CummeRbund has at least 6 classes that it will place different parts of your dat
 Now you can access information using different functions:  gene information using genes(cuff_data), your isoform level output using isoforms(cuff_data), TSS related groups using tss(cuff_data) and so forth
 
 You can explore global statistics on data for quality, dispersion, distribution of gene expression scores etc or Plot things for specific features or genes.
+
+### Create global statistics for Quality Control
+Overdispersion is a common problem in RNA-Seq data. To evaluate the quality of the model fitting I used cufflinks v2.0 mean counts, variance, and dispersion to visualize the estimated overdispersion for each sample as a quality control measure.
+```
+disp<-dispersionPlot(genes(cuff_data))
+disp 
+```
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
