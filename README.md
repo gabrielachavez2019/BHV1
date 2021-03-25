@@ -116,7 +116,7 @@ Next I cluster the Gene Expression data, this allows an openended exploration of
 ```
 den<-csDendro(genes(cuff_data), replicates=T)
 ```
-![den](http://url/to/den.png)
+![den](https://github.com/gabrielachavez2019/BoHV1/blob/master/den.png)
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
