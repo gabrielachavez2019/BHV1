@@ -108,11 +108,14 @@ To assess the distributions of FPKM scores across samples, I used the csDensity 
 ```
 densRep<-csDensity(genes(cuff_data),replicates=T)
 ```
-Individual Pairwise comparisons were made by using csScatter between Latent (x) vs Uninfected (y) treatments.
+Individual Pairwise comparisons were made by using csScatter between Uninfected (x) vs Latent (y) treatments.
 ```
 sp<-csScatter(genes(cuff_data),"Uni","Lat",smooth=T)
 ```
-
+Next I cluster the Gene Expression data, this allows an openended exploration of the data, without getting lost among the thousands of individual genes. Beyond simple visualization. I used a computational application for gene clustering that is part of the cummeRbund suite.
+```
+den<-csDendro(diffGenes, replicates=T)
+```
 
 #### Additional tools
 Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
