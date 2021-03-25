@@ -99,19 +99,28 @@ Overdispersion is a common problem in RNA-Seq data. To evaluate the quality of t
 ```
 disp<-dispersionPlot(genes(cuff_data)) 
 ```
+![disp](https://github.com/gabrielachavez2019/BoHV1/blob/master/disp.png)
+
 The squared coefficient of variation is a normalized measure of cross-replicate variability that can be useful for evaluating the quality the RNA-seq data. Differences in CV2 can result in lower numbers of differentially expressed genes due to a higher degree of variability between replicate fpkm estimates.
 ```
 genes.scv<-fpkmSCVPlot(genes(cuff_data))
 isoforms.scv<-fpkmSCVPlot(isoforms(cuff_data))
 ```
+![genes.scv](https://github.com/gabrielachavez2019/BoHV1/blob/master/genes.scv.png)
+![isoforms.scv](https://github.com/gabrielachavez2019/BoHV1/blob/master/isoforms.scv.png)
+
 To assess the distributions of FPKM scores across samples, I used the csDensity plot.
 ```
 densRep<-csDensity(genes(cuff_data),replicates=T)
 ```
+![densRep](https://github.com/gabrielachavez2019/BoHV1/blob/master/densRep.png)
+
 Individual Pairwise comparisons were made by using csScatter between Uninfected (x) vs Latent (y) treatments.
 ```
 sp<-csScatter(genes(cuff_data),"Uni","Lat",smooth=T)
 ```
+![sp](https://github.com/gabrielachavez2019/BoHV1/blob/master/sp.png)
+
 Next I cluster the Gene Expression data, this allows an openended exploration of the data, without getting lost among the thousands of individual genes. Beyond simple visualization. I used a computational application for gene clustering that is part of the cummeRbund suite.
 ```
 den<-csDendro(genes(cuff_data), replicates=T)
