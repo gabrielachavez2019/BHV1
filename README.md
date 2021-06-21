@@ -220,4 +220,4 @@ igb
 
 
 #### Additional tools
-Please contact Gabriela Toomer (gabriela.toomer@okstate.edu) if you want to add additional tools/scripts/options or have any questions.
+Please contact Gabriela Toomer (gabriela.toomer@gmail.com) if you want to add additional tools/scripts/options or have any questions.
