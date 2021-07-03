@@ -1,5 +1,5 @@
 # GeneExpression Analysis of the BoHV1 infected bovine
-This is a repository for gene expression analysis of the RNA-Seq data got by Ilumina from infected bovine with BoHV1
+This is a repository for gene expression analysis of the Ilumina RNA-Seq data from BoHV1 infected bovine TG (if T0-T3 and M) and tonsil (t0-t3 and m).
 
 ## RNA-Seq PIPELINE
 This pipeline performs the following tasks:
