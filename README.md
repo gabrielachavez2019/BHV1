@@ -77,7 +77,7 @@ Cuffnorm will report both FPKM values and normalized, estimates for the number o
 ```
 cufflinks --num-threads 32 -o /scratch/gatoo/output_cuff_"$name"  --frag-bias-correct /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Sequence/WholeGenomeFasta/genome.fa  --multi-read-correct -G /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.gtf /scratch/gatoo/output_"$name"/accepted_hits.bam
 ```
-This runs in the same mapping file but stops here, because manually you need to create an assemblies file, depending on the comparasions you are interested in, in this example Latent vs Uninfected would be only t0,m. However multiple comparisons can be made if need it (m,t0,t1,t2,t3).
+This runs in the same mapping file but stops here, because manually you need to create an assemblies file, depending on the comparasions you are interested in, in this example Latent (n=2) vs Uninfected (n=3) would be only t0,m. However multiple comparisons can be made if need it (m,t0,t1,t2,t3).
 
 ```
 cuffmerge -g /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.gtf -s /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.fa -p 8 assemblies.txt
@@ -85,9 +85,14 @@ cuffmerge -g /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.gtf -
 The assemblies file need to have listed the GTF files from the cufflinks previous count, I usually put all mapping files in my scratch, so:
 
 /scratch/gatoo/output_cuff_tonsil_Lat_1/transcripts.gtf
+/scratch/gatoo/output_cuff_tonsil_Lat_2/transcripts.gtf
+/scratch/gatoo/output_cuff_tonsil_Uni_1/transcripts.gtf
+/scratch/gatoo/output_cuff_tonsil_Uni_2/transcripts.gtf
+/scratch/gatoo/output_cuff_tonsil_Uni_3/transcripts.gtf
+
 
 ```
-cuffdiff --num-threads 32 -o diff_out -b /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.fa -p 8 -L T0,T1 -u merged_asm/merged.gtf \/scratch/gatoo/output_M/accepted_hits.bam,/scratch/gatoo/output_T2_2/accepted_hits.bam   \/scratch/gatoo/output_T0_2/accepted_hits.bam,/scratch/gatoo/output_T0_1/accepted_hits.bam,/scratch/gatoo/output_T0_3/accepted_hits.bam 
+cuffdiff --num-threads 32 -o diff_out -b /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.fa -p 8 -L Lat,Uni -u merged_asm/merged.gtf \/scratch/gatoo/output_"$name"/accepted_hits.bam,/scratch/gatoo/output_"$name"/accepted_hits.bam   \/scratch/gatoo/output_"$name"/accepted_hits.bam,/scratch/gatoo/output_"$name"/accepted_hits.bam,/scratch/gatoo/output_"$name"/accepted_hits.bam 
 
 ```
 
