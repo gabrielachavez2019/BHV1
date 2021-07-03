@@ -74,6 +74,23 @@ Counting sequencing reads in features (genes/transcripts/exons) is done with cuf
 Cufflinks with default options --library-norm-method classic-fpkm (default) for Cufflinks --library-norm-method geometric (default) for cuffdiff.
 Cuffnorm will report both FPKM values and normalized, estimates for the number of fragments that originate from each gene, transcript, TSS group, and CDS group. Note that because these counts are already normalized to account for differences in library size, they should not be used with downstream differential expression tools that require raw counts as input.
 
+```
+cufflinks --num-threads 32 -o /scratch/gatoo/output_cuff_"$name"  --frag-bias-correct /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Sequence/WholeGenomeFasta/genome.fa  --multi-read-correct -G /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.gtf /scratch/gatoo/output_"$name"/accepted_hits.bam
+```
+This runs in the same mapping file but stops here, because manually you need to create an assemblies file, depending on the comparasions you are interested in, in this example Latent vs Uninfected would be only t0,m. However multiple comparisons can be made if need it (m,t0,t1,t2,t3).
+
+```
+cuffmerge -g /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.gtf -s /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.fa -p 8 assemblies.txt
+```
+The assemblies file need to have listed the GTF files from the cufflinks previous count, I usually put all mapping files in my scratch, so:
+
+/scratch/gatoo/output_cuff_tonsil_Lat_1/transcripts.gtf
+
+```
+cuffdiff --num-threads 32 -o diff_out -b /scratch/gatoo/Bos_taurus/UCSC/bosTau8/Annotation/Genes/genes.fa -p 8 -L T0,T1 -u merged_asm/merged.gtf \/scratch/gatoo/output_M/accepted_hits.bam,/scratch/gatoo/output_T2_2/accepted_hits.bam   \/scratch/gatoo/output_T0_2/accepted_hits.bam,/scratch/gatoo/output_T0_1/accepted_hits.bam,/scratch/gatoo/output_T0_3/accepted_hits.bam 
+
+```
+
 ## Calculate FPKMs
 Cuffdiff calculates the FPKM of each transcript, primary transcript, and gene in each sample. Primary transcript and gene FPKMs are computed by summing the FPKMs of transcripts in each primary transcript group or gene group. The results are output in FPKM tracking files in the format described here. There are four FPKM tracking files:
 
